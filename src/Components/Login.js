@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 import Header from './Header'
 
 import { validation } from '../utils/Validation';
+import {  createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebase';
 function Login() {
 
   const [isisignin, setIssignin]=useState(true);
@@ -21,6 +23,42 @@ const message=validation(email.current.value,password.current.value);
 
   console.log("message",message);
   setErrormessage(message);
+
+  if(message) return;
+
+  if(!isisignin){
+// sign up logic
+
+createUserWithEmailAndPassword(auth, email, password)
+
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrormessage(errorCode+"-"+errorMessage);
+    // ..
+  });
+  }
+  else{
+// sign in logic
+
+signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrormessage(errorCode+"-"+errorMessage);
+  });
+
+  }
 }
 
 
