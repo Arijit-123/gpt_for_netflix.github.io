@@ -5,13 +5,17 @@ import Login from './Components/Login';
 import Body from './Components/Body';
 import { RouterProvider } from 'react-router-dom';
 import Header from './Components/Header';
+import {Provider} from 'react-redux'
+import appstore from './utils/Appstore';
 function App() {
 
   
   return (
-    <div className="">
-   <Login/>
-    </div>
+   
+    <Provider store={appstore}>
+   <Body/>
+   </Provider>
+    
   );
 }
 

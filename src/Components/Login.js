@@ -1,19 +1,22 @@
 import React, { useRef, useState } from 'react'
 import Header from './Header'
-
+import { updateProfile } from "firebase/auth";
 import { validation } from '../utils/Validation';
 import {  createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
+import { addUsers } from '../utils/userslice';
+import { useNavigate } from 'react-router-dom';
+import { UseDispatch, useDispatch } from 'react-redux';
 function Login() {
-
+const dispatch=useDispatch();
   const [isisignin, setIssignin]=useState(true);
 const [errormessage,setErrormessage]=useState();
-
+const navigate=useNavigate();
 
 const togglesigninForm=()=>{
 setIssignin(!isisignin);
 }
-
+const name=useRef(null);
 const email=useRef(null);
 const password=useRef(null);
 
@@ -29,11 +32,34 @@ const message=validation(email.current.value,password.current.value);
   if(!isisignin){
 // sign up logic
 
-createUserWithEmailAndPassword(auth, email, password)
+createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
 
   .then((userCredential) => {
     // Signed up 
     const user = userCredential.user;
+    updateProfile(user, {
+      displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/103876218?v=4"
+    }).then(() => {
+
+      const{uid, email,displayName,photoURL}=auth.currentUser;
+      dispatch(
+        addUsers({
+          uid: uid,
+          email: email,
+          displayName: displayName,
+          photoURL: photoURL,
+        })
+      );
+    
+    }).catch((error) => {
+      // An error occurred
+
+      setErrormessage(error.message)
+      // ...
+    });
+
+
+   
     // ...
   })
   .catch((error) => {
@@ -46,10 +72,12 @@ createUserWithEmailAndPassword(auth, email, password)
   else{
 // sign in logic
 
-signInWithEmailAndPassword(auth, email, password)
+signInWithEmailAndPassword(auth, email.current.value, password.current.value)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
+
+    navigate("/browse");
     // ...
   })
   .catch((error) => {
@@ -75,7 +103,7 @@ console.log("useref",email);
 
    <form onSubmit={(e)=>e.preventDefault()} className='absolute w-4/12 p-12  bg-black mx-auto my-36 right-0 left-0 text text-white bg-opacity-80'>
    <h1 className='text text-xl font font-bold'>{isisignin?"Sign In":"Sign Up"}</h1>
-   {!isisignin? <input className='p-4 my-4 w-full rounded-lg bg-gray-700' placeholder='Full Name'></input>:""}
+   {!isisignin? <input className='p-4 my-4 w-full rounded-lg bg-gray-700'  ref={name} placeholder='Full Name'></input>:""}
   
   
     <input className='p-4 my-4 w-full rounded-lg bg-gray-700'  ref={email} placeholder='email@gmail.com'></input>
