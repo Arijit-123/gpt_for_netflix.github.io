@@ -27,20 +27,8 @@ const dispatch= useDispatch();
 
   ]);
 
-  useEffect(() => {
-  onAuthStateChanged(auth,(user)=>{
-    if(user){
-      const {uid,email,displayName,photoURL}=user;
-      dispatch(addUsers({uid:uid,email:email,displayName:displayName, photoURL: photoURL}));
-     
-    }
-    else{
-dispatch(removeuser());
-    }
-  })
-  }, [])
   return (
-    <div className="text text-red-800 font-bold">
+    <div className=" font-bold">
     <RouterProvider router={approuter}/>
     </div>
   );

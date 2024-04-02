@@ -11,7 +11,7 @@ function Login() {
 const dispatch=useDispatch();
   const [isisignin, setIssignin]=useState(true);
 const [errormessage,setErrormessage]=useState();
-const navigate=useNavigate();
+
 
 const togglesigninForm=()=>{
 setIssignin(!isisignin);
@@ -77,7 +77,7 @@ signInWithEmailAndPassword(auth, email.current.value, password.current.value)
     // Signed in 
     const user = userCredential.user;
 
-    navigate("/browse");
+   
     // ...
   })
   .catch((error) => {

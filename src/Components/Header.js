@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
 import { removeuser } from '../utils/userslice';
+import { LOGO, USER } from '../utils/constants';
 
 function Header() {
 const dispatch=useDispatch();
@@ -28,7 +29,7 @@ console.log("users from header", user);
 
 
   useEffect(() => {
-    onAuthStateChanged(auth,(user)=>{
+ const unsubscribe=   onAuthStateChanged(auth,(user)=>{
       console.log("show user", user);
       if(user){
         const {uid,email,displayName,photoURL}=user;
@@ -40,16 +41,18 @@ console.log("users from header", user);
   navigate("/");
       }
     })
+
+    return()=>unsubscribe();
     }, [])
 
   return (
     <div className='absolute w-screen bg-gradient-to-b from-black  z-30 flex justify-between'>
-      <img className='w-44' src='https://1000logos.net/wp-content/uploads/2017/05/Netflix-Logo.png'></img>
+      <img className='w-44' src={LOGO}></img>
 
 
       {user?
 <div className='flex'>
-      <img className='w-12 mt-4  h-12' src={user?.photoURL}></img>
+      <img className='w-12 mt-4  h-12' src={USER}></img>
       <button className='ml-4 mr-2 font font-bold'  onClick={handlesignout}>Sign out</button>
       </div>:""
       }
