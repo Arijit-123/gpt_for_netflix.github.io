@@ -12,3 +12,5 @@ export const API_OPTIONS= {
 
 
   export const OPTIONS = {method: 'GET', headers: {accept: 'application/json'}};
+
+  export const IMG_CDN="https://image.tmdb.org/t/p/w500";

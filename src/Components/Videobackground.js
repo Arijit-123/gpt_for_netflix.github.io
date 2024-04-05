@@ -11,7 +11,7 @@ function Videobackground({movieid}) {
 
   return (
     <div>
-      <iframe width="560" height="315" src={"https://www.youtube.com/embed/" + trailervideo?.key } title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <iframe className='w-screen aspect-video' src={"https://www.youtube.com/embed/" + trailervideo?.key +"?&autoplay=1&mute=1" } title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
   )
 }

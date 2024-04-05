@@ -15,10 +15,11 @@ function Maincontainer() {
     const mainmovie=movies[0];
     const {original_title, overview,id}=mainmovie;
   return (
-    <div>
-      this is maincontainer
-      <Videobackground  movieid={id}/>
+    <div className='bg-gradient-to-r from-black'>
+  
       <Videotitle  title={original_title} overview={overview} id={id}/>
+      <Videobackground  movieid={id}/>
+     
     </div>
   )
 }
